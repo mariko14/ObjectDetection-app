@@ -43,7 +43,9 @@ except Exception as ex:
     st.error(ex)
 st.sidebar.header("Image/Video Config")
 source_radio = st.sidebar.radio(
-    "Select Source", settings.SOURCES_LIST)
+    # "Select Source", settings.SOURCES_LIST)
+    #【追加】カメラからの入力
+    "Select Source", settings.SOURCES_LIST )
 source_img = None
 
 # If image is selected
@@ -95,11 +97,10 @@ elif source_radio == settings.VIDEO:
 elif source_radio == settings.YOUTUBE:
     helper.play_youtube_video(confidence, model)
 
+#【追加】カメラからの入力
+elif source_radio == "Webcam":
+    if st.sidebar.button("Start Webcam"):
+        helper.play_webcam_video(confidence, model)
+
 else:
     st.error("Please select a valid source type!")
-
-  
-
-# streamlit run ObjectDetection/app.py
-# 3.10.12
-#　vscodeのターミナルで　export PAFY_BACKEND=internal
