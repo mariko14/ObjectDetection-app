@@ -99,8 +99,8 @@ elif source_radio == settings.YOUTUBE:
 
 #【追加】カメラからの入力
 elif source_radio == "Webcam":
-    if st.sidebar.button("Start Webcam"):
-        helper.play_webcam_video(confidence, model)
+    # if st.sidebar.button("Start Webcam"):
+    helper.play_webcam_video(confidence, model)
 
 else:
     st.error("Please select a valid source type!")
