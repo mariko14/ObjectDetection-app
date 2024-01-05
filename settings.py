@@ -18,7 +18,9 @@ ROOT = root_path.relative_to(Path.cwd())
 IMAGE = 'Image'
 VIDEO = 'Video'
 YOUTUBE = 'YouTube'
-SOURCES_LIST = [IMAGE, VIDEO, YOUTUBE]
+# SOURCES_LIST = [IMAGE, VIDEO, YOUTUBE]
+#【追加】カメラからの入力
+SOURCES_LIST = [IMAGE, VIDEO, YOUTUBE, "Webcam"]
 
 # Images config
 IMAGES_DIR = ROOT / 'images'
@@ -39,6 +41,7 @@ VIDEOS_DICT = {
     'video_4': VIDEO_4_PATH,
     'video_5': VIDEO_5_PATH,
 }
+
 
 # ML Model config
 MODEL_DIR = ROOT / 'weights'
