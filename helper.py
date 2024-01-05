@@ -90,21 +90,6 @@ def play_stored_video(conf, model):
 
 
 #【追加】カメラからの入力
-# def play_webcam_video(conf, model):
-#     st_frame = st.empty()
-#     #Webカメラを開く
-#     vid_cap = cv2.VideoCapture(0)  #0はデフォルトのWebカメラを指す
-
-#     #カメラが開いている間、フレームを読み込む
-#     while vid_cap.isOpened():
-#         success, image = vid_cap.read()
-#         if success:
-#             _display_detected_frames(conf, model, st_frame, image)
-#         else:
-#             vid_cap.release()
-#             break
-#     vid_cap.release()
-
 
 def play_webcam_video(conf, model):
     st.header("Webcam Live Feed")
