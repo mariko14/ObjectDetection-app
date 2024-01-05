@@ -87,17 +87,34 @@ def play_stored_video(conf, model):
 
 
 #【追加】カメラからの入力
-def play_webcam_video(conf, model):
-    st_frame = st.empty()
-    #Webカメラを開く
-    vid_cap = cv2.VideoCapture(0)  #0はデフォルトのWebカメラを指す
+# def play_webcam_video(conf, model):
+#     st_frame = st.empty()
+#     #Webカメラを開く
+#     vid_cap = cv2.VideoCapture(0)  #0はデフォルトのWebカメラを指す
 
-    #カメラが開いている間、フレームを読み込む
-    while vid_cap.isOpened():
-        success, image = vid_cap.read()
-        if success:
-            _display_detected_frames(conf, model, st_frame, image)
-        else:
-            vid_cap.release()
-            break
-    vid_cap.release()
+#     #カメラが開いている間、フレームを読み込む
+#     while vid_cap.isOpened():
+#         success, image = vid_cap.read()
+#         if success:
+#             _display_detected_frames(conf, model, st_frame, image)
+#         else:
+#             vid_cap.release()
+#             break
+#     vid_cap.release()
+
+
+def play_webcam_video(conf, model):
+    st.header("Webcam Live Feed")
+
+    def video_frame_callback(frame: av.VideoFrame) -> av.VideoFrame:
+        image = frame.to_ndarray(format="bgr24")
+        # モデルを使って画像を解析
+        res = model.predict(image, conf=conf)
+        res_plotted = res[0].plot()
+        return av.VideoFrame.from_ndarray(res_plotted, format="bgr24")
+
+    webrtc_streamer(
+        key="object-detection",
+        video_frame_callback=video_frame_callback,
+        media_stream_constraints={"video": True, "audio": False},
+    ) 
