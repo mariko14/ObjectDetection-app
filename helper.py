@@ -1,3 +1,4 @@
+import ultralytics
 from ultralytics import YOLO
 import streamlit as st
 import cv2
@@ -24,30 +25,6 @@ def _display_detected_frames(conf, model, st_frame, image):
                    channels="BGR",
                    use_column_width=True
                    )
-
-# pafyから変更！
-# def play_youtube_video(conf, model):
-#     source_youtube = st.sidebar.text_input("YouTube Video url")
-#     if st.sidebar.button('Detect Objects'):
-#         try:
-#             video = pafy.new(source_youtube) 
-#             best = video.getbest(preftype="mp4") 
-            
-#             vid_cap = cv2.VideoCapture(best.url)
-#             st_frame = st.empty()
-#             while (vid_cap.isOpened()):
-#                 success, image = vid_cap.read()
-#                 if success:
-#                     _display_detected_frames(conf,
-#                                              model,
-#                                              st_frame,
-#                                              image,
-#                                              )
-#                 else:
-#                     vid_cap.release()
-#                     break
-#         except Exception as e:
-#             st.sidebar.error("Error loading video: " + str(e))
 
 # pafyから変更！　pytubeへ
 def play_youtube_video(conf, model):
@@ -107,3 +84,20 @@ def play_stored_video(conf, model):
                     break
         except Exception as e:
             st.sidebar.error("Error loading video: " + str(e))
+
+
+#【追加】カメラからの入力
+def play_webcam_video(conf, model):
+    st_frame = st.empty()
+    #Webカメラを開く
+    vid_cap = cv2.VideoCapture(0)  #0はデフォルトのWebカメラを指す
+
+    #カメラが開いている間、フレームを読み込む
+    while vid_cap.isOpened():
+        success, image = vid_cap.read()
+        if success:
+            _display_detected_frames(conf, model, st_frame, image)
+        else:
+            vid_cap.release()
+            break
+    vid_cap.release()
