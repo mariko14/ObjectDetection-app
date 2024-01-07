@@ -93,6 +93,17 @@ def play_stored_video(conf, model):
 def play_webcam_video(conf, model):
     st.header("Webcam Live Feed")
 
+    # カメラの向きを切り替えるためのセッション状態を設定
+    if 'facing_mode' not in st.session_state:
+        st.session_state['facing_mode'] = "environment"  # デフォルトは背面カメラ
+
+    # カメラ切り替えボタン
+    if st.button('Switch Camera'):
+        if st.session_state['facing_mode'] == "environment":
+            st.session_state['facing_mode'] = "user"
+        else:
+            st.session_state['facing_mode'] = "environment"
+
     def video_frame_callback(frame: av.VideoFrame) -> av.VideoFrame:
         image = frame.to_ndarray(format="bgr24")
         # モデルを使って画像を解析
@@ -103,8 +114,11 @@ def play_webcam_video(conf, model):
     webrtc_streamer(
         key="object-detection",
         video_frame_callback=video_frame_callback,
-        media_stream_constraints={"video": True, "audio": False},
-        rtc_configuration={  # この設定を足す
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        media_stream_constraints={
+            "video": {"facingMode": st.session_state['facing_mode']},
+            "audio": False
+        },
+        rtc_configuration={
+            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
         }
     )
