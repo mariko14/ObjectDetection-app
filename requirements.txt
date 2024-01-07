@@ -4,3 +4,5 @@ streamlit-webrtc==0.47.1
 ultralytics==8.0.234
 numpy
 pytube==15.0.0
+cv2
+av
