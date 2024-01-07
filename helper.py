@@ -90,7 +90,6 @@ def play_stored_video(conf, model):
 
 
 #【追加】カメラからの入力
-
 def play_webcam_video(conf, model):
     st.header("Webcam Live Feed")
 
@@ -105,4 +104,7 @@ def play_webcam_video(conf, model):
         key="object-detection",
         video_frame_callback=video_frame_callback,
         media_stream_constraints={"video": True, "audio": False},
-    ) 
+        rtc_configuration={  # この設定を足す
+        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        }
+    )
