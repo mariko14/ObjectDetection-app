@@ -4,3 +4,9 @@ streamlit-webrtc==0.47.1
 ultralytics==8.0.234
 numpy
 pytube==15.0.0
+
+
+
+imutils==0.5.3
+twilio~=8.1.0
+streamlit-session-memo~=0.3.1
